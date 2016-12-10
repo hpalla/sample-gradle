@@ -14,9 +14,6 @@ apply plugin: 'com.jfrog.artifactory'
 version = '1.0.0-SNAPSHOT'
 group = 'demo.publish'
 
-plugins {
-  id "com.jfrog.artifactory" version "4.4.9"
-}
 artifactory {
     contextUrl = "${artifactory_contextUrl}"
     publish {
