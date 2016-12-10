@@ -1,71 +1,38 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9"
-  }
-}
 apply plugin: 'java'
-apply plugin: 'application'
 apply plugin: 'maven-publish'
-apply plugin: "com.jfrog.artifactory"
 
-version = '1.0.0-SNAPSHOT'
-group = 'demo.publish'
+ext.server = 'http://192.168.122.1:8081/artifactory'
 
-artifactory {
-    contextUrl = "${artifactory_contextUrl}"
-    publish {
-        repository {
-            repoKey = 'libs-snapshot-local'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-            maven = true
-
-        }       
-        defaults {
-            publications ('mavenJava')
-        }
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs 'src/main/java'
-        }
-    }
-
-    test {
-        java {
-            srcDir 'src/test/java'
-        }
-    }
-}
+repositories.maven { url "https://repo1.maven.org/maven2/" }
 
 dependencies {
-    testCompile 'junit:junit:4.11'
-    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9"
+  testCompile 'junit:junit:4.+'
 }
 
-test {
-    testLogging {
-        events "passed", "skipped", "failed", "standardOut", "standardError"
+group = 'build.artifact'
+version = '1.0-SNAPSHOT'
+
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
     }
+  }
+  repositories {
+    maven {
+      url chooseRepositoryFor(version)
+      credentials {
+        username 'admin'
+        password 'P@ssw0rd'
+      }
+    }
+  }
 }
 
-// create Gradle wrapper with command line `gradle wrapper` in terminal
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
+def chooseRepositoryFor(version) {
+  def isSnapshot = version.endsWith('-SNAPSHOT')
+  def repositoryType = isSnapshot ? 'snapshot' : 'release'
+  def repository = "libs-$repositoryType-local"
+  return "$server/$repository"
 }
-
-mainClassName = "Main" // Main.java is located in src/main/java/Main.java
