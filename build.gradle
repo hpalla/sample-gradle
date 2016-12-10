@@ -3,11 +3,8 @@ apply plugin: 'application'
 apply plugin: 'com.jfrog.artifactory'
 
 repositories {
-    mavenCentral()
-    maven {
-            url 'http://localhost:8081/artifactory/plugins-release'
-            
-        }
+    maven { url 'http://localhost:8081/artifactory/plugins-release'
+    mavenCentral()}
 }
 
 artifactory {
