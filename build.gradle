@@ -34,7 +34,7 @@ sourceSets {
 
 dependencies {
     testCompile 'junit:junit:4.11'
-    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4+'
+    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:2.6.7'
 }
 
 test {
