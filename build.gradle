@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         maven {
-            url 'http://192.168.184.129:8081/artifactory/plugins-release'
+            url 'http://192.168.122.1:8081/artifactory/plugins-release'
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
@@ -23,7 +23,7 @@ group = 'demo.publish'
 
 repositories {
     add buildscript.repositories.getByName("maven-main-cache")
-    maven { url 'http://192.168.184.129:8081/artifactory/plugins-release'
+    maven { url 'http://192.168.122.1:8081/artifactory/plugins-release'
     mavenCentral()}
 }
 
