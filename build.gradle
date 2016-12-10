@@ -1,19 +1,52 @@
+buildscript {
+    repositories {
+        maven {
+            url 'http://localhost:8081/artifactory/plugins-release'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+            name = "maven-main-cache"
+        }
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1"
+    }
+}
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
+version = '1.0.0-SNAPSHOT'
+group = 'demo.publish'
+
 repositories {
+    add buildscript.repositories.getByName("maven-main-cache")
     maven { url 'http://localhost:8081/artifactory/plugins-release'
     mavenCentral()}
 }
 
 artifactory {
-    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    contextUrl = "${artifactory_contextUrl}"
     publish {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-snapshot-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
             maven = true
-            
+
+        }       
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
         }
     }
 }
@@ -34,7 +67,7 @@ sourceSets {
 
 dependencies {
     testCompile 'junit:junit:4.11'
-    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:2.6.7'
+    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9'
 }
 
 test {
