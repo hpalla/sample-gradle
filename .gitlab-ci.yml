@@ -2,7 +2,7 @@
 # This is the Gradle build system for JVM applications
 # https://gradle.org/
 # https://github.com/gradle/gradle
-image: java:8
+image: pierrevincent/gradle-java8
 
 # Make the gradle wrapper executable. This essentially downloads a copy of
 # Gradle to build the project with.
