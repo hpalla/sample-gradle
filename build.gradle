@@ -9,10 +9,6 @@ dependencies {
   testCompile 'junit:junit:4.+'
 }
 
-group = 'build.artifact'
-version = '1.0-SNAPSHOT'
-
-
 publishing {
   publications {
     mavenJava(MavenPublication) {
