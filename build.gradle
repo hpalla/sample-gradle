@@ -20,7 +20,7 @@ publishing {
       url chooseRepositoryFor(version)
       credentials {
         username = System.getenv("artifactory_user") ?: ""
-        password = System.getenv("artifactory_password") ?: ""
+        password = System.getenv("artifactory_api_key") ?: ""
       }
     }
   }
