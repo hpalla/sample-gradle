@@ -19,8 +19,8 @@ publishing {
     maven {
       url chooseRepositoryFor(version)
       credentials {
-        username = project.findProperty("artifactory_user") ?: ""
-        password = project.findProperty("artifactory_password") ?: ""
+        username = System.getenv("artifactory_user") ?: ""
+        password = System.getenv("artifactory_password") ?: ""
       }
     }
   }
